@@ -16,21 +16,28 @@
 package com.github.chrishantha.jfr.flamegraph.output;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-
-import java.io.IOException;
 
 public class Application {
 
+    @Parameter(names = {"--type" }, description = "Type of analysis", required = true)
+    private static AnalysisType analysisType = AnalysisType.PACKAGE_AGGREGATION;
+
     public static void main(String[] args) throws Exception {
+
         final JCommander jcmdr = new JCommander();
         jcmdr.setProgramName(JFRToFlameGraphWriter.class.getSimpleName());
 
         OutputWriterParameters parameters = new OutputWriterParameters();
-        JFRToFlameGraphWriter jfrToFlameGraphWriter = new JFRToFlameGraphWriter(parameters);
+        JfrParameters jfrParameters = new JfrParameters();
+        Application application = new Application();
+
+        JFRToFlameGraphWriter jfrToFlameGraphWriter = new JFRToFlameGraphWriter(jfrParameters, parameters);
 
         jcmdr.addObject(parameters);
         jcmdr.addObject(jfrToFlameGraphWriter);
+        jcmdr.addObject(jfrParameters);
 
         try {
             jcmdr.parse(args);
@@ -38,14 +45,21 @@ public class Application {
             System.err.println(e.getMessage());
             return;
         }
-
-        if (jfrToFlameGraphWriter.help) {
+        if (jfrParameters.help) {
             jcmdr.usage();
             return;
         }
 
         try {
-            jfrToFlameGraphWriter.process();
+            switch (application.analysisType) {
+                case FLAME_GRAPH:
+                    jfrToFlameGraphWriter.process();
+                    break;
+                case PACKAGE_AGGREGATION:
+                    TotalPackageTimeWriter totalPackageTimeWriter = new TotalPackageTimeWriter(jfrParameters, parameters);
+                    totalPackageTimeWriter.process();
+                    break;
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
             throw e;

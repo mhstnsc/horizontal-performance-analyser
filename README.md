@@ -48,90 +48,16 @@ For example:
 ```
 Open the SVG file in your web browser.
 
-Use -h with scripts to see the available options.
+## How to generate a package summary
 
-For example:
 ```
-$ ./flamegraph-output.sh -h
-  Usage: Application [options] [command] [command options]
-    Options:
-      -h, --help
-        Display Help
-        Default: false
-    Commands:
-      folded      Create folded output
-        Usage: folded [options]
-          Options:
-            -d, --decompress
-              Decompress the JFR file
-              Default: false
-            -y, --end-timestamp
-              End timestamp in seconds for filtering
-              Default: 0
-            -a, --hide-arguments
-              Hide arguments in methods
-              Default: false
-            -i, --ignore-line-numbers
-              Ignore Line Numbers in Stack Frame
-              Default: false
-          * -f, --jfrdump
-              Java Flight Recorder Dump
-            -o, --output
-              Output file
-            -j, --print-jfr-details
-              Print JFR details and exit
-              Default: false
-            -t, --print-timestamp
-              Print timestamp in JFR Details
-              Default: false
-            -r, --show-return-value
-              Show return value for methods in the stack
-              Default: false
-            -x, --start-timestamp
-              Start timestamp in seconds for filtering
-              Default: 0
-            -s, --use-simple-names
-              Use simple names instead of qualified names in the stack
-              Default: false
-  
-      json      Create json output for d3-flame-graph
-        Usage: json [options]
-          Options:
-            -d, --decompress
-              Decompress the JFR file
-              Default: false
-            -y, --end-timestamp
-              End timestamp in seconds for filtering
-              Default: 0
-            -a, --hide-arguments
-              Hide arguments in methods
-              Default: false
-            -i, --ignore-line-numbers
-              Ignore Line Numbers in Stack Frame
-              Default: false
-          * -f, --jfrdump
-              Java Flight Recorder Dump
-            -l, --live
-              Export stack trace sample timestamp
-              Default: false
-            -o, --output
-              Output file
-            -j, --print-jfr-details
-              Print JFR details and exit
-              Default: false
-            -t, --print-timestamp
-              Print timestamp in JFR Details
-              Default: false
-            -r, --show-return-value
-              Show return value for methods in the stack
-              Default: false
-            -x, --start-timestamp
-              Start timestamp in seconds for filtering
-              Default: 0
-            -s, --use-simple-names
-              Use simple names instead of qualified names in the stack
-              Default: false
+./print_package_summary.sh -f /tmp/highcpu.jfr -i
 ```
+
+
+## Getting help
+
+`./flamegraph-output.sh -h`
 
 ## License
 

@@ -50,20 +50,12 @@ import com.jrockit.mc.flightrecorder.spi.IView;
  */
 public final class JFRToFlameGraphWriter {
 
-    @Parameter(names = { "-h", "--help" }, description = "Display Help", help = true)
-    boolean help;
-
-    @Parameter(names = { "-f", "--jfrdump" }, description = "Java Flight Recorder Dump", required = true)
-    File jfrdump;
 
     @Parameter(names = { "-ot", "--output-type" }, description = "Output type")
     OutputType outputType = OutputType.FOLDED;
 
     @Parameter(names = { "-o", "--output" }, description = "Output file")
     File outputFile;
-
-    @Parameter(names = { "-d", "--decompress" }, description = "Decompress the JFR file")
-    boolean decompress;
 
     @Parameter(names = { "-i", "--ignore-line-numbers" }, description = "Ignore Line Numbers in Stack Frame")
     boolean ignoreLineNumbers;
@@ -102,17 +94,22 @@ public final class JFRToFlameGraphWriter {
 
     private static final String DURATION_FORMAT = "{0} h {1} min";
 
-    public JFRToFlameGraphWriter(OutputWriterParameters parameters) {
+    private final JfrParameters jfrParameters;
+
+    public JFRToFlameGraphWriter(JfrParameters jfrParameters, OutputWriterParameters parameters) {
         outputType.getFlameGraphOutputWriter().initialize(parameters);
+        this.jfrParameters = jfrParameters;
     }
 
     public void process() throws Exception {
         FlightRecording recording;
         try {
-            recording = FlightRecordingLoader.loadFile(decompress ? decompressFile(jfrdump) : jfrdump);
+            recording = FlightRecordingLoader.loadFile(
+                    jfrParameters.decompress ? decompressFile(jfrParameters.jfrdump) : jfrParameters.jfrdump
+            );
         } catch (Exception e) {
             System.err.println("Could not load the JFR file.");
-            if (!decompress) {
+            if (!jfrParameters.decompress) {
                 System.err.println("If the JFR file is compressed, try the decompress option");
             }
             throw e;

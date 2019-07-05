@@ -29,12 +29,14 @@ import java.io.IOException;
 public class ApplicationTest extends TestCase {
 
     private OutputWriterParameters parameters;
+    private JfrParameters jfrParameters;
     private JFRToFlameGraphWriter jfrToFlameGraphWriter;
 
     @Override
     protected void setUp() throws Exception {
         parameters = new OutputWriterParameters();
-        jfrToFlameGraphWriter = new JFRToFlameGraphWriter(parameters);
+        jfrParameters = new JfrParameters();
+        jfrToFlameGraphWriter = new JFRToFlameGraphWriter(jfrParameters, parameters);
     }
 
     /**
@@ -56,7 +58,7 @@ public class ApplicationTest extends TestCase {
         String[] args = { "-f", tmp.toString(), "-o", tmp.toString() };
         parseCommands(args);
         assertTrue(tmp.exists());
-        assertEquals(tmp, jfrToFlameGraphWriter.jfrdump);
+        assertEquals(tmp, jfrParameters.jfrdump);
         assertEquals(tmp, jfrToFlameGraphWriter.outputFile);
         assertFalse(jfrToFlameGraphWriter.ignoreLineNumbers);
     }

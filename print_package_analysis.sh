@@ -20,17 +20,12 @@ set -e
 
 JFG_DIR=$(dirname "$0")
 
-if [ ! -x "$FLAMEGRAPH_DIR/flamegraph.pl" ]; then
-  echo "Please clone https://github.com/brendangregg/FlameGraph and set FLAMEGRAPH_DIR to the root directory"
-  exit 1
-fi
-
 function help {
     echo ""
     echo "Usage: "
-    echo "create-flamegraph.sh [some options supported by run_jar.sh]"
+    echo "print_package_analysis.sh [some options supported by run_jar.sh]"
     echo ""
-    echo "See: run_jar.sh -h"
+    echo "See: print_package_analysis.sh -h"
     echo ""
 }
 
@@ -58,4 +53,4 @@ fi
 jfr_filename=$(basename $jfr_file)
 
 # Use folded output type
-${JFG_DIR}/flamegraph-output.sh -ot folded $* | $FLAMEGRAPH_DIR/flamegraph.pl --title "Flame Graph: $jfr_filename"
+${JFG_DIR}/run_jar.sh --type PACKAGE_ANALYSIS $*
