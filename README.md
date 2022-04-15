@@ -1,109 +1,20 @@
-[![Build Status](https://travis-ci.org/chrishantha/jfr-flame-graph.svg?branch=master)](https://travis-ci.org/chrishantha/jfr-flame-graph)
+Based on: https://travis-ci.org/chrishantha/jfr-flame-graph
 
-Converting JFR Method Profiling Samples to FlameGraph compatible format.
-========================================================================
+## Description
 
-This is a simple application to read Method Profiling Samples from Java Flight Recorder dump and convert those Stack Traces to [FlameGraph] compatible format.
+The problem is that current performance analysers are used to identify hot spots so they mostly work on vertical way, either top down or bottom up thus they cannot answer the question, how much is my `com.mypackage` cpu is actually using across its usages. This helps to understand where to put effort in performance optimizations and which libraries use the most CPU.
 
-[FlameGraph]: https://github.com/brendangregg/FlameGraph
+After running the analyser a report of used CPU is printed for each level of the packages.
 
-This application uses the unsupported [JMC Parser].
+## Status:
 
-[JMC Parser]: http://hirt.se/blog/?p=446
+I've used it in production but its usage is not polished
 
-See my blog post on "[Flame Graphs with Java Flight Recordings]" for more details.
 
-[Flame Graphs with Java Flight Recordings]: http://isuru-perera.blogspot.com/2015/05/flame-graphs-with-java-flight-recordings.html
+## Usage
 
-## How to build and install
-
-Build and install `jfr-flame-graph` app using
-
-```
-./gradlew installDist
-```
-
-This will install the executable into `./build/install/jfr-flame-graph/bin`.
-
-You can add this location to your `PATH`.
-
-## Clone FlameGraph repository
-
-Clone [Brendan]'s [FlameGraph] repository and set the environment variable `FLAMEGRAPH_DIR` to FlameGraph directory
-
-[Brendan]: http://www.brendangregg.com/bio.html
-
-```
-git clone https://github.com/brendangregg/FlameGraph.git
-export FLAMEGRAPH_DIR=/path/to/FlameGraph
-```
-
-## How to generate a Flame Graph
-
-There are helper scripts, to generate the flame graphs in `./build/install/jfr-flame-graph/bin` directory.
-
-For example:
-
-```
-./create_flamegraph.sh -f /tmp/highcpu.jfr -i > flamegraph.svg
-```
-Open the SVG file in your web browser.
-
-Use -h with scripts to see the available options.
-
-For example:
-```
-$ ./jfr-flame-graph -h
-  Usage: JFRToFlameGraphWriter [options]
-    Options:
-      -d, --decompress
-        Decompress the JFR file
-        Default: false
-      -et, --end-timestamp
-        End timestamp in seconds for filtering
-        Default: 9223372036854775807
-      -e, --event
-        Type of event used to generate the flamegraph
-        Default: cpu
-        Possible Values: [cpu, allocation-tlab, allocation-outside-tlab, exceptions, monitor-blocked, io]
-      -h, --help
-        Display Help
-      -ha, --hide-arguments
-        Hide arguments in methods
-        Default: false
-      -i, --ignore-line-numbers
-        Ignore Line Numbers in Stack Frame
-        Default: false
-    * -f, --jfrdump
-        Java Flight Recorder Dump
-      -l, --live
-        Export stack trace sample timestamp (in json output type)
-        Default: false
-      -o, --output
-        Output file
-      -ot, --output-type
-        Output type
-        Default: folded
-        Possible Values: [folded, json]
-      -j, --print-jfr-details
-        Print JFR details and exit
-        Default: false
-      -t, --print-timestamp
-        Print timestamp in JFR Details
-        Default: false
-      -rv, --show-return-value
-        Show return value for methods in the stack
-        Default: false
-      -st, --start-timestamp
-        Start timestamp in seconds for filtering
-        Default: -9223372036854775808
-      -sn, --use-simple-names
-        Use simple names instead of qualified names in the stack
-        Default: false
-```
+I forgot how to use it
 
 ## License
-
-Copyright (C) 2015 M. Isuru Tharanga Chrishantha Perera
 
 Licensed under the Apache License, Version 2.0
